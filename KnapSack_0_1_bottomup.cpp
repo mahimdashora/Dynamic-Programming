@@ -10,40 +10,38 @@ class Solution
     public:
     //Function to return max value that can be put in knapsack of capacity W.
     // Returns the value of maximum profit
-     int knapSackRec(int W, int wt[],
-				int val[], int n,
-				vector<vector<int>> &dp)
-     {
-	// base condition
-         if(n<0){return 0;}
-        	if(dp[n][W]!=-1)
-           {
-               return dp[n][W];
-            }
-    else{
-        if(wt[n]<=W)
-        {   
-            dp[n][W]=max(val[n]+knapSackRec(W-wt[n],wt,val,n-1,dp),knapSackRec(W,wt,val,n-1,dp));
-             return dp[n][W];
-        }
-        else{
-            dp[n][W]=knapSackRec(W,wt,val,n-1,dp);
-            return dp[n][W];
-        }
-    }
-}
+    
+
 
 int knapSack(int W, int wt[], int val[], int n)
 {
 	// double pointer to declare the
 	// table dynamically
-	vector<vector<int>> dp(n+1,vector<int>(W+1,-1));
-	//memset(dp,-1,sizeof(dp));
-	return knapSackRec(W, wt, val, n-1 ,dp);
-}
+	vector<vector<int>> dp(n+1,vector<int>(W+1,0));
+	
+	for(int i=0;i<=n;i++)
+	{
+	    for(int w=0;w<=W;w++)
+	    {
+	        if(i==0 ||w==0)
+	        {
+	            dp[i][w]=0;
+	        }
+	        else if(wt[i-1]<=w)//capacity mein hai
+	        {
+	            dp[i][w]=max(val[i-1]+dp[i-1][w-wt[i-1]],dp[i-1][w]);
+	        }
+	        else
+	        {
+	            dp[i][w]=dp[i-1][w];// can't choose as weight not less than available weight
+	        }
+	    }
+	}
+	return dp[n][W] ;
+ }
 };
 
-
+// { Driver Code Starts.
 
 int main()
  {
