@@ -35,9 +35,10 @@ public:
         }
         if(sum%2!=0)
         {
-            return 0;
+            return 0; //if sum is odd then then ofc partition won't exist.
         }
-        int target =sum/2;
+        int target =sum/2;  // if partition can be created then sum should be even
+     //Reduce the problem into where you check whether a subarray of given target sum exists.
         //base condition for recursion
         return issubsetsum(N,arr,target);
     }
